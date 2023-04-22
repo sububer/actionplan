@@ -1,0 +1,12 @@
+name: Event Details
+on: [issues]
+jobs:
+  detail:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./04_practice
+    steps:
+      - name: "output details"
+        run: echo "${{ toJson(github) }}"
+        
