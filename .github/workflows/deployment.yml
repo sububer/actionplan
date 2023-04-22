@@ -34,6 +34,7 @@ jobs:
             echo "The server url is ${{ github.server_url }}"
             echo "The api url is ${{ github.api_url }}"
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     defaults:
       run:
