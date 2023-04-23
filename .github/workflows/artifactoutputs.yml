@@ -6,6 +6,8 @@ on:
 jobs:
   buildtest:
     runs-on: ubuntu-latest
+    outputs:
+      js-file: ${{ steps.publish.outputs.script-file }}
     defaults:
       run:
         working-directory: ./06_artifactsoutputs
@@ -24,6 +26,9 @@ jobs:
         run: npm run test
       - name: Build website
         run: npm run build
+      - name: Publish JS file name
+        id: publish
+        run: find dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'
       - name: Upload artifact
         uses: actions/upload-artifact@v3.1.2
         with:
@@ -44,5 +49,7 @@ jobs:
           name: dist-files
       - name: output contents
         run: ls -R
+      - name: output the js file name
+        run: echo ${{ needs.buildtest.outputs.js-file }}
       - name: Deploy
         run: echo "Deploying..."
