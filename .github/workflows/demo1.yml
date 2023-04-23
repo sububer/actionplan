@@ -4,7 +4,15 @@ on:
     types:
       - opened
       - edited
+    branches:
+      - 'dev-*'
+      - 'feat/**'
   workflow_dispatch:
+  push:
+    branches:
+      - main
+      - 'dev-*'
+      - 'feat/**'
 jobs:
   endtoend:
     runs-on: ubuntu-latest
