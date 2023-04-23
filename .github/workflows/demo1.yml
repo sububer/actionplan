@@ -9,7 +9,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./05_events/
+        working-directory: ./05_events
     runs-on: ubuntu-latest
     steps:
       - name: Output event data
