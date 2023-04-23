@@ -1,5 +1,5 @@
 name: linttestdeploy
-on: [push]
+on: [workflow_dispatch]
 jobs:
   lintbuildtest:
     runs-on: ubuntu-latest
