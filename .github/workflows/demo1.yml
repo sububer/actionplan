@@ -6,6 +6,10 @@ on:
   workflow_dispatch:
 jobs:
   deploy:
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./05_events/
     runs-on: ubuntu-latest
     steps:
       - name: Output event data
