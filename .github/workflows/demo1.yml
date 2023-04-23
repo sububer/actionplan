@@ -6,16 +6,15 @@ on:
   workflow_dispatch:
 jobs:
   deploy:
+    runs-on: ubuntu-latest
     defaults:
       run:
-        shell: bash
         working-directory: ./05_events
-    runs-on: ubuntu-latest
     steps:
       - name: Output event data
         run: echo "${{ toJSON(github.event) }}"
       - name: Get code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.2
       - name: Install dependencies
         run: npm ci
       - name: Test code
