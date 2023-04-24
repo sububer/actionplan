@@ -1,12 +1,15 @@
 name: Website Deployment
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
 jobs:
   lint:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./08_execution_flow
     steps:
       - name: Get code
         uses: actions/checkout@v3
@@ -22,6 +25,9 @@ jobs:
         run: npm run lint
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./08_execution_flow
     steps:
       - name: Get code
         uses: actions/checkout@v3
@@ -35,6 +41,7 @@ jobs:
         run: npm ci
       - name: Test code
         run: npm run test
+      # conditional only if tests fail, that's only when we care
       - name: Upload test report
         uses: actions/upload-artifact@v3
         with:
@@ -43,6 +50,9 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./08_execution_flow
     steps:
       - name: Get code
         uses: actions/checkout@v3
