@@ -8,10 +8,10 @@ on:
       - 'dev-*'
       - 'feat/**'
   workflow_dispatch:
-  push:
-    branches:
-      - 'dev-*'
-      - 'feat/**'
+  # push:
+  #   branches:
+  #     - 'dev-*'
+  #     - 'feat/**'
 jobs:
   endtoend:
     runs-on: ubuntu-latest
