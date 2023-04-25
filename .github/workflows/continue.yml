@@ -1,9 +1,9 @@
-name: conditional-deployment
+name: continue-example
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -46,11 +46,12 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Test code
+      # continue if error?
+        continue-on-error: true
         id: run-tests
         run: npm run test
       # conditional only if tests fail, that's only when we care
       - name: Upload test report
-        if: failure() && steps.run-tests.outcome == 'failure'
         uses: actions/upload-artifact@v3
         with:
           name: test-report
