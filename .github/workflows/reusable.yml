@@ -1,8 +1,24 @@
 name: reusable deployer
-on: workflow_call
+on:
+  workflow_call:
+    inputs:
+      artifact-name:
+        description: 'name of the artifact to download'
+        required: false
+        default: 'dist-files'
+        type: string
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    defaults:
+        run:
+          working-directory: ./08_execution_flow
     steps:
+      - name: get code
+        uses: actions/download-artifact@v3
+        with:
+            name: $${{ inputs.artifact-name }}
+      - name: list files
+        run: ls -la
       - name: output info
         run: echo "deploying..."
