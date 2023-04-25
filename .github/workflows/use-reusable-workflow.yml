@@ -78,11 +78,13 @@ jobs:
       - name: Build website
         id: build-website
         run: npm run build
+      - name: list files
+        run: ls -la
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: dist-files
-          path: ./dist
+          path: dist
   deploy:
     needs: build
     uses: ./.github/workflows/reusable.yml
