@@ -1,17 +1,26 @@
 name: container-deployment
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
 env:
   CACHE_KEY: node-deps
-  MONGODB_DB_NAME: gha-demo
 jobs:
   testing:
     runs-on: ubuntu-latest
     container:
       image: node:18
+    services:
+      redis:
+        image: redis:7
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps port 6379 on service container to the host
+          - 6379:6379
     defaults:
       run:
         working-directory: ./09_containers
@@ -21,20 +30,12 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: ~/.node_modules
           key: ${{ env.CACHE_KEY }}-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         run: npm ci
-      - name: Output information
-        run: |
-          echo "testing..."
-  deploy:
-    needs: testing
-    runs-on: ubuntu-latest
-    steps:
-      - name: Output information
+      - name: connect to redis
+        run: node client.js
         env:
-          PORT: 3000
-        run: |
-          echo "deploying..."
-          echo "PORT: $PORT"
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
